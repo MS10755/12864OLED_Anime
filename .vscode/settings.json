@@ -58,6 +58,8 @@
         "windows.h": "c",
         "anime.h": "c",
         "stdint.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "page_manager.h": "c",
+        "assert.h": "c"
     }
 }

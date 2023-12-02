@@ -13,7 +13,8 @@ INCLUDE_DIR += SDL2/include	\
 			../libraries/u8g2/cppsrc \
 			../libraries/u8g2/csrc \
 			HAL	\
-			../UI/anime
+			../UI/anime \
+			../UI/page_manager
 			
 
 
@@ -27,7 +28,8 @@ C_SOURCES += $(wildcard ../libraries/u8g2/csrc/*.c) \
 			../libraries/u8g2/sys/sdl/common/u8x8_d_sdl_128x64.c \
 			../libraries/u8g2/sys/sdl/common/u8x8_sdl_key.c \
 			HAL/HAL.c \
-			$(wildcard ../UI/anime/*.c)
+			$(wildcard ../UI/anime/*.c) \
+			../UI/page_manager/page_manager.c
 
 
 INCLUDE = $(addprefix -I,$(INCLUDE_DIR))
