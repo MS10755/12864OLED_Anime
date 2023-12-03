@@ -14,7 +14,7 @@ int main(int argc, char*argv[])
 
   PAGE_INIT(PAGE_ID_MAIN);
   PAGE_INIT(PAGE_ID_MENU);
-  page_switch(&page_manager,PAGE_ID_MAIN);
+  page_switch(&page_manager,PAGE_ID_MENU);
 
   while(1){
     page_manager_loop(&page_manager);

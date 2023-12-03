@@ -1,9 +1,8 @@
 #include "w_list.h"
 
-
 #define ITEM_FONT u8g2_font_6x10_tf
-#define ANIME_TIME 200
-
+#define ANIME_TIME 240
+#define SHOW_AREA_MOVE_SPACE 1  //光标距离页面边缘多少行开始滚动列表
 
 vector<int> w_list::move_cursor(int step)
 {
@@ -12,22 +11,31 @@ vector<int> w_list::move_cursor(int step)
     show_area_move = show_area_begin;
     cursor_move = cursor;
     int next_cursor = step + cursor;
-    if(next_cursor>= show_area_begin && next_cursor<= show_area_end){
+    if(next_cursor>= (show_area_begin + SHOW_AREA_MOVE_SPACE)  && next_cursor<= (show_area_end - SHOW_AREA_MOVE_SPACE)){
         cursor = next_cursor;
-    }else if(next_cursor < show_area_begin){
+    }else if(next_cursor < (show_area_begin + SHOW_AREA_MOVE_SPACE)){
+        int next_show_area_begin = next_cursor - SHOW_AREA_MOVE_SPACE;
+        if(next_show_area_begin < 0){
+            next_show_area_begin = 0;
+        }
         if(next_cursor < 0){
             next_cursor = 0;
         }
-        show_area_begin = next_cursor;
+        cursor = next_cursor;
+        show_area_begin = next_show_area_begin;
         show_area_end = show_area_begin + show_area_size -1;
-        cursor = next_cursor;
-    }else if(next_cursor > show_area_end){
-        if(next_cursor >= (int)items.size()){
-            next_cursor = (int)items.size() - 1;
+    }else if(next_cursor > (show_area_end - SHOW_AREA_MOVE_SPACE)){
+        int next_show_area_end = next_cursor + SHOW_AREA_MOVE_SPACE;
+        int last_item_index = (int)items.size() - 1;
+        if(next_show_area_end > last_item_index){
+            next_show_area_end = last_item_index;
         }
-        show_area_end = next_cursor;
-        show_area_begin = show_area_end - show_area_size + 1;
+        if(next_cursor > last_item_index){
+            next_cursor = last_item_index;
+        }
         cursor = next_cursor;
+        show_area_end = next_show_area_end;
+        show_area_begin = show_area_end - show_area_size + 1;
     }
     show_area_move = show_area_begin - show_area_move;
     cursor_move = cursor - cursor_move;
@@ -57,7 +65,6 @@ void w_list::draw()
         need_set_anime = true;
     }
     setAnime();
-
     anime_process(&a_list_y);
     anime_process(&a_cursor_y);
     anime_process(&a_cursor_width);
@@ -65,16 +72,17 @@ void w_list::draw()
     int font_height = u8g2.getMaxCharHeight();
 
     int list_ref_y = a_list_y.val;
-    int i = 0;
+    int shift_x = 10;
     u8g2.setDrawColor(1);
-
-    u8g2.drawRBox(pos_x,list_ref_y + pos_y + a_cursor_y.val,a_cursor_width.val ,font_height,4);
+    u8g2.drawRBox(shift_x + pos_x,list_ref_y + pos_y + a_cursor_y.val,a_cursor_width.val ,font_height,4);
     u8g2.setFontMode(1);
     u8g2.setDrawColor(2);
-    for(string item : items){
-        i++;
-        u8g2.drawStr( pos_x, list_ref_y + pos_y + i * font_height,item.c_str());
 
+    int i = 0;
+    for(string item : items){
+        
+        u8g2.drawStr(shift_x + pos_x, list_ref_y + pos_y + (i+1) * font_height,item.c_str());
+        i++;
     }
 }
 
@@ -85,6 +93,8 @@ void w_list::scroll(int step)
     vector<int> move = move_cursor(step);
     need_set_anime = true;
     printf("step:%d  cursor:%d begin:%d end:%d \r\n",step,cursor,show_area_begin,show_area_end);    
+
+
 }
 
 void w_list::setAnime()
@@ -111,5 +121,3 @@ void w_list::setAnime()
 
     need_set_anime = false;
 }
-
-

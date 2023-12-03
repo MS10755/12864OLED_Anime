@@ -27,7 +27,6 @@ private:
     anime_parms a_cursor_y;
     anime_parms a_cursor_width;
 
-
     int cursor = 0;
     int show_area_begin = 0;
     int show_area_end = 5;
@@ -46,7 +45,7 @@ public:
     void draw() override;
     void scroll(int step);
     void setAnime();
-  
+
 };
 
 
