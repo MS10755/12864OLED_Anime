@@ -8,7 +8,8 @@
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE"
+                "_UNICODE",
+                "PLATFORM_WIN32"
             ],
             "windowsSdkVersion": "10.0.22621.0",
             "compilerPath": "D:/MinGW/bin/gcc.exe",

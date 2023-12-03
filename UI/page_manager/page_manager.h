@@ -65,5 +65,19 @@ void page_manager_loop(page_manager_t *page_manager);
 #endif // __cplusplus
 
 
+#define PAGE_DECLARE(id)    \
+    static int open();  \
+    static int close(); \
+    static int loop();   \
+    static void key_handler(int key,int event); \
+    void page_setup_##id(){  \
+        page_register(&page_manager,id,open,loop,close,key_handler);\
+    }
+
+#define PAGE_INIT(id)   \
+        extern void page_setup_##id();  \
+        do {page_setup_##id();}while(0);
+
+
 #endif // __PAGE_MANAGER_H_
 

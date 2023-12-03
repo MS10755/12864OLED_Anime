@@ -1,5 +1,7 @@
 #include "anime.h"
 #include "HAL.h"
+#include <stdlib.h>
+#include <assert.h>
 
 uint32_t animation_millis(void){
 	return HAL_GetTick();
@@ -60,9 +62,45 @@ void anime_init(anime_parms_t* parms,int begin,int end,int duration,easing_fun_e
 
 
 void anime_play(anime_parms_t* parms) {
-    if (parms->status == ANIME_STATUS_INIT) {
+    if (parms->status == ANIME_STATUS_INIT || parms->status == ANIME_STATUS_END) {
         parms->start_time = animation_millis();
+        parms->val = parms->val_begin;
         parms->passed_time = 0;
         parms->status = ANIME_STATUS_PLAYING;
     }
 }
+
+anime_timeLine_t * anime_timeLine_create(void){
+    anime_timeLine_t * atl = (anime_timeLine_t*)malloc(sizeof(anime_timeLine_t));
+    assert(atl);
+    atl->next = NULL;
+    atl->a_parms = NULL;
+    return atl;
+}
+
+void anime_timeLine_del(anime_timeLine_t *timeLine){
+    assert(timeLine);
+    anime_timeLine_t * next = NULL;
+    do{
+        next = timeLine->next;
+        free(timeLine);
+        timeLine = next;
+    }while (timeLine);
+}
+
+void anime_timeLine_add(anime_timeLine_t *timeLine,anime_parms_t* parms){
+    assert(timeLine);
+    assert(parms);
+    if(timeLine->next == NULL && timeLine->a_parms == NULL){
+        timeLine->a_parms = parms;
+        return;
+    }
+    while(timeLine->next != NULL){
+        timeLine = timeLine->next;
+    }
+    anime_timeLine_t * atl = (anime_timeLine_t*)malloc(sizeof(anime_timeLine_t));
+    atl->a_parms = parms;
+    atl->next = NULL;
+    timeLine->next = atl;
+}
+

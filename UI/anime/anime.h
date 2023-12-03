@@ -22,18 +22,27 @@ typedef struct anime_parms{
 	easing_fun_exec_t easing_fun;
 }anime_parms_t;
 
+typedef struct anime_timeLine
+{
+	struct anime_timeLine * next;
+	anime_parms_t * a_parms;
+}anime_timeLine_t;
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 void anime_init(anime_parms_t* parms, int begin, int end, int duration, easing_fun_exec_t easing_fun);
 void anime_play(anime_parms_t* parms);
-void anime_process(anime_parms_t* parms);
+void anime_process(anime_parms_t *parms);
 void anime_cancel(anime_parms_t* parms, uint16_t duration);
+
+anime_timeLine_t *anime_timeLine_create(void);
+void anime_timeLine_del(anime_timeLine_t *timeLine);
+void anime_timeLine_add(anime_timeLine_t *timeLine, anime_parms_t *parms);
 
 #ifdef __cplusplus
 }
 #endif
 #endif
-
-

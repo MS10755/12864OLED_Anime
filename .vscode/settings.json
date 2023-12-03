@@ -60,6 +60,13 @@
         "stdint.h": "c",
         "stdio.h": "c",
         "page_manager.h": "c",
-        "assert.h": "c"
+        "assert.h": "c",
+        "w_list.h": "c",
+        "w_common.h": "c",
+        "page.h": "c",
+        "vector": "cpp",
+        "string": "cpp",
+        "map": "cpp",
+        "xtree": "cpp"
     }
 }

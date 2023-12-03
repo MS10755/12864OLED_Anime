@@ -8,19 +8,25 @@ BUILD_DIR = build
 
 OPTS = -O0 -g
 
+DEFINES = -DPLATFORM_WIN32
+
 # add headers files here
 INCLUDE_DIR += SDL2/include	\
 			../libraries/u8g2/cppsrc \
 			../libraries/u8g2/csrc \
 			HAL	\
 			../UI/anime \
-			../UI/page_manager
+			../UI/page_manager \
+			../UI \
+			../UI/widget
 			
 
 
 # add .CPP files here
 CPP_SOURCES = main.cpp \
-			   $(wildcard ../libraries/u8g2/cppsrc/*.cpp)
+			   $(wildcard ../libraries/u8g2/cppsrc/*.cpp) \
+			   $(wildcard ../UI/*.cpp) \
+			   $(wildcard ../UI/widget/*.cpp)
 
 
 # add .C files here
@@ -29,7 +35,9 @@ C_SOURCES += $(wildcard ../libraries/u8g2/csrc/*.c) \
 			../libraries/u8g2/sys/sdl/common/u8x8_sdl_key.c \
 			HAL/HAL.c \
 			$(wildcard ../UI/anime/*.c) \
-			../UI/page_manager/page_manager.c
+			../UI/page_manager/page_manager.c \
+			$(wildcard ../UI/icons/*.c)
+			
 
 
 INCLUDE = $(addprefix -I,$(INCLUDE_DIR))
@@ -45,7 +53,7 @@ OBJS += $(addprefix $(BUILD_DIR)/,$(notdir $(CPP_SOURCES:.cpp=.o)))
 LIBS = SDL2/lib/x86/SDL2main.lib SDL2/lib/x86/SDL2.lib 
 
 # LIBS = SDL2/lib/x86/SDL2.lib 
-LD_FLAGS = -std=c++17
+LD_FLAGS =
 
 C_CXX_FLAGS = -MMD -MP -MF"$(@:%.o=%.d)"
 
@@ -54,7 +62,7 @@ C_FLAGS = -std=c99 $(C_CXX_FLAGS)
 CXX_FLAGS = -std=c++17 $(C_CXX_FLAGS)
 
 $(BUILD_DIR)/$(TARGET): $(OBJS) $(BUILD_DIR) Makefile
-	$(CXX) $(LD_FLAGS) $(INCLUDE) $(OBJS) $(LIBS) -o $@
+	$(CXX) $(LD_FLAGS) $(OBJS) $(LIBS) -o $@
 	-cp SDL2/lib/x86/SDL2.dll build/
 
 

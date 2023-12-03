@@ -25,7 +25,7 @@ static void page_manager_signal_clear(page_manager_t * page_manager,uint32_t sig
 void page_manager_init(page_manager_t * page_manager){
     assert(page_manager);
     if(!page_manager) return;
-    memset(page_manager,0x00,sizeof(page_manager));
+    memset(page_manager,0x00,sizeof(page_manager_t));
 }
 
 int page_register(
@@ -57,6 +57,8 @@ int page_register(
     page->loop = loop;
     page->close = close;
     page->key_event_handler = key_event_handler;
+
+    return PAGE_OK;
 }
 
 int page_switch(page_manager_t * page_manager, int id){
@@ -64,6 +66,7 @@ int page_switch(page_manager_t * page_manager, int id){
     assert(id != page_manager->current_page_id);
     page_manager->switch_page_id = id;
     page_manager_signal_set(page_manager,PAGE_PANAGER_SIGNAL_SWITCH);
+    return PAGE_OK;
 }
 
 
@@ -77,33 +80,27 @@ void page_key_event_send(page_manager_t * page_manager,int key,int event){
 
 void page_manager_loop(page_manager_t * page_manager){
     assert(page_manager);
-    printf("current_page:%d last_page:%d \r\n",page_manager->current_page_id,page_manager->last_page_id);
+    // printf("current_page:%d last_page:%d \r\n",page_manager->current_page_id,page_manager->last_page_id);
     if(page_manager->signals & PAGE_PANAGER_SIGNAL_SWITCH){
         page_manager_signal_clear(page_manager,PAGE_PANAGER_SIGNAL_SWITCH);
 
         page_t * close_page = page_manager_find_page_by_id(page_manager,page_manager->current_page_id);
-        if(close_page){
-            if(close_page->close){
-                close_page->close();
+        if(close_page && close_page->close){
+            if(close_page->close()!= PAGE_OK){
+                return;
+            };
+        }
+        page_t * open_page = page_manager_find_page_by_id(page_manager,page_manager->switch_page_id);
+        if(open_page && open_page->open){
+            if(open_page->open() != PAGE_OK){
+                return;
             }
         }
-
         page_manager->last_page_id = page_manager->current_page_id;
-
         page_manager->current_page_id = page_manager->switch_page_id;
-
-        page_t * open_page = page_manager_find_page_by_id(page_manager,page_manager->current_page_id);
-        if(open_page){
-            if(open_page->open){
-                open_page->open();
-            }
-        }
-    }else{
-        page_t * loop_page = page_manager_find_page_by_id(page_manager,page_manager->current_page_id);
-        if(loop_page){
-            if(loop_page->loop){
-                loop_page->loop();
-            }
-        }
+    }
+    page_t * loop_page = page_manager_find_page_by_id(page_manager,page_manager->current_page_id);
+    if(loop_page && loop_page->loop){
+        loop_page->loop();
     }
 }
