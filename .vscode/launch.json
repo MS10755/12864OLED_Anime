@@ -5,6 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "cwd": "${workspaceRoot}/STM32F10x/STM32F103C8",
+            "executable": "./build/stm32_anime.elf",
+            "name": "STM32 (openocd) 启动",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/cmsis-dap.cfg",
+                "target/stm32f0x.cfg",
+            ],
+            "svdFile": "STM32F10x/STM32F103C8/STM32F103.svd",
+            "searchDir": [],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none"
+        },
+        {
                 "name": "Win32 (gdb) 启动",
                 "type": "cppdbg",
                 "request": "launch",

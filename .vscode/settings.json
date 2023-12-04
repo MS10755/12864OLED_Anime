@@ -70,6 +70,8 @@
         "xtree": "cpp",
         "stdlib.h": "c",
         "gui.h": "c",
-        "menu.h": "c"
-    }
+        "menu.h": "c",
+        "gpio.h": "c"
+    },
+    "cortex-debug.variableUseNaturalFormat": false
 }

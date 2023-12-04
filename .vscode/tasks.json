@@ -26,6 +26,60 @@
                 "showReuseMessage": false,
                 "clear": false
             }
+        },
+        {
+            "type": "shell",
+            "label": "STM32 编译",
+            "command": "make",
+            "args": [
+                "-j8"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/STM32F10x/STM32F103C8"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "调试器生成的任务。",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "type": "shell",
+            "label": "STM32 下载",
+            "command": "openocd",
+            "args": [
+                "-f",
+                "interface/cmsis-dap.cfg",
+                "-f",
+                "target/stm32f0x.cfg",
+                "-c",
+                "program build/stm32_anime.elf verify reset exit"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/STM32F10x/STM32F103C8"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            }
         }
     ],
     "version": "2.0.0"
