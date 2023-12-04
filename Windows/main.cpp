@@ -31,6 +31,7 @@ int main(int argc, char*argv[])
   PAGE_INIT(PAGE_ID_MENU);
   PAGE_INIT(PAGE_ID_CLOCK);
   PAGE_INIT(PAGE_ID_TOOLBOX);
+  PAGE_INIT(PAGE_ID_GAME);
   page_switch(&page_manager,PAGE_ID_MAIN);
 
   while(1){

@@ -35,6 +35,7 @@ public:
     void scroll(int dir);
     void set_Anime();
     int getCursor();
+    void reset();
     ~w_menu(){
 
     }

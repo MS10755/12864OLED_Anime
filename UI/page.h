@@ -8,6 +8,7 @@ enum  {
     PAGE_ID_MENU,
     PAGE_ID_CLOCK,
     PAGE_ID_TOOLBOX,
+    PAGE_ID_GAME,
 };
 
 #ifdef PLATFORM_WIN32

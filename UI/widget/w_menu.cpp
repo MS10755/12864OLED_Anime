@@ -90,3 +90,8 @@ int w_menu::getCursor()
 {
     return cursor;
 }
+
+void w_menu::reset()
+{
+    need_set_anime = true;
+}

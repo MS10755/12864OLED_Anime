@@ -20,7 +20,7 @@ icont_t icons[] ={
    { gImage_clock_32x32,32,32,"timer"},
    { gImage_toolbox_32x32,32,32,"toolbox"},
    { gImage_setting2_32x32,32,32,"settings"},
-   { gImage_about_32x32,32,32,"about"},
+   { gImage_about_32x32,32,32,"Game"},
 };
 
 
@@ -43,6 +43,7 @@ static int open(){
     }
     anime_init(&a_menu_y,u8g2.getHeight(),0,500,easing_fun_OutQuad);
     anime_play(&a_menu_y);
+    menu.reset();
     return PAGE_OK;
 }
 
@@ -94,7 +95,12 @@ static void key_handler(int key,int event){
             anime_play(&a_menu_y);
             break;
         case 3:
-            printf("clicked about\n");
+            printf("clicked game\n");
+            anime_init(&a_menu_y,a_menu_y.val,-u8g2.getHeight(),500,easing_fun_OutQuad);
+            a_menu_y.finished_cb = anime_finised_cb;
+            switch_page_id = PAGE_ID_GAME;
+            a_menu_y.user_data = &switch_page_id;
+            anime_play(&a_menu_y);
             break;    
         default:
             break;

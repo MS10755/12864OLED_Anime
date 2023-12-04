@@ -129,7 +129,7 @@ return PAGE_OK;
 
 static void key_handler(int key,int event){
     if(key >= 1){
-        anime_init(&a_clock_x,a_clock_x.val,64,700,easing_fun_OutBounce);
+        anime_init(&a_clock_x,a_clock_x.val,64,500,easing_fun_OutBounce);
         a_clock_x.finished_cb = anime_finfised_cb;
         anime_play(&a_clock_x);
     }
