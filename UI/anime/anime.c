@@ -1,6 +1,7 @@
 #include "anime.h"
 #include "HAL.h"
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 
 uint32_t animation_millis(void){
@@ -13,6 +14,7 @@ uint32_t animation_passed(uint32_t pre_ms){
 }
 
 void anime_process(anime_parms_t * parms){
+    assert(parms);
     if (parms->status == ANIME_STATUS_END) {
         return;
     }
@@ -37,12 +39,16 @@ void anime_process(anime_parms_t * parms){
         {
             parms->val = parms->val_target;
             parms->status = ANIME_STATUS_END;
+            if(parms->finished_cb){
+                parms->finished_cb(parms);
+            }
 //            printf("END pass_time:%d  val:%d\r\n", parms->passed_time, parms->val);
         }
     }
 }
 
 void anime_cancel(anime_parms_t* parms,uint16_t duration) {
+    assert(parms);
     parms->val_target = parms->val_begin;
     parms->val_begin = parms->val;
     parms->duration = duration;
@@ -52,6 +58,8 @@ void anime_cancel(anime_parms_t* parms,uint16_t duration) {
 
 
 void anime_init(anime_parms_t* parms,int begin,int end,int duration,easing_fun_exec_t easing_fun) {
+    assert(parms);
+    memset(parms,0x00,sizeof(anime_parms_t));
     parms->val_begin = begin;
     parms->val_target = end;
     parms->val = parms->val_begin;
@@ -62,6 +70,7 @@ void anime_init(anime_parms_t* parms,int begin,int end,int duration,easing_fun_e
 
 
 void anime_play(anime_parms_t* parms) {
+    assert(parms);
     if (parms->status == ANIME_STATUS_INIT || parms->status == ANIME_STATUS_END) {
         parms->start_time = animation_millis();
         parms->val = parms->val_begin;
@@ -104,3 +113,20 @@ void anime_timeLine_add(anime_timeLine_t *timeLine,anime_parms_t* parms){
     timeLine->next = atl;
 }
 
+bool anime_timeLine_process(anime_timeLine_t *timeLine)
+{
+    //find not finished anime.
+    anime_timeLine_t * atl = timeLine;
+    while(atl){
+        if(atl->a_parms->status == ANIME_STATUS_PLAYING){
+            anime_process(atl->a_parms);
+            return false;
+        }else if(atl->a_parms->status == ANIME_STATUS_END){
+            atl = atl->next;
+
+        }else if(atl->a_parms->status == ANIME_STATUS_INIT){
+            anime_play(atl->a_parms);
+        }
+    }
+    return true;
+}

@@ -8,9 +8,9 @@
 #define _GUI_H
 
 #include "menu.h"
+#include "page.h"
 
-
-extern u8g2_t u8g2;
+// extern u8g2_t u8g2;
 
 #define GUI_STATE_STOP 0
 #define GUI_STATE_SIGNAL_ALARM 1

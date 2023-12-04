@@ -9,7 +9,7 @@ extern "C" {
 void HAL_Init();
 uint32_t HAL_GetTick();
 void HAL_Delay(uint32_t ms);
-
+uint32_t HAL_Passed(uint32_t pre_ms);
 #ifdef __cplusplus
 }
 #endif

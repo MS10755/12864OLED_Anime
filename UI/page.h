@@ -6,6 +6,8 @@ enum  {
     PAGE_ID_NONE = 0,
     PAGE_ID_MAIN,
     PAGE_ID_MENU,
+    PAGE_ID_CLOCK,
+    PAGE_ID_TOOLBOX,
 };
 
 #ifdef PLATFORM_WIN32
@@ -19,5 +21,5 @@ extern U8G2_SDL2_128x64 u8g2;
 #endif // PLATFORM_WIN32
 
 extern page_manager_t page_manager;
-
+extern int get_key(void);
 #endif // !__PAGE_H__

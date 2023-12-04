@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/libraries/u8g2/sys/sdl/clock"
             ],
             "defines": [
                 "_DEBUG",

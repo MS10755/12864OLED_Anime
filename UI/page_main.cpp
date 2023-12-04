@@ -2,8 +2,10 @@
 #include "anime.h"
 #include "w_menu.h"
 
-w_menu menu(0,16);
+w_menu menu(0,0);
 
+
+anime_parms a_menu_y;
 
 //icons 
 #define ICON_NUMS  4
@@ -24,7 +26,14 @@ icont_t icons[] ={
 
 PAGE_DECLARE(PAGE_ID_MAIN)
 
+int switch_page_id = 0;
+
+static void anime_finised_cb(anime_parms * parms){
+    page_switch(&page_manager,*(int*)parms->user_data);
+}
+
 static int open(){
+    u8g2.setDrawColor(1);
     static bool is_init_menu = false;
     if(is_init_menu == false){
         is_init_menu= true;
@@ -32,7 +41,8 @@ static int open(){
             menu.add_itme(icons[i]);
         }
     }
-
+    anime_init(&a_menu_y,u8g2.getHeight(),0,500,easing_fun_OutQuad);
+    anime_play(&a_menu_y);
     return PAGE_OK;
 }
 
@@ -43,6 +53,11 @@ static int close(){
 }
 
 static int loop(){
+    anime_process(&a_menu_y);
+    vector<int> pos = menu.getPos();
+    int menu_x = pos[0];
+    int menu_y = a_menu_y.val;
+    menu.setPos(menu_x,menu_y);
     u8g2.clearBuffer();
     menu.draw();
     u8g2.sendBuffer();
@@ -50,6 +65,47 @@ static int loop(){
 }
 
 static void key_handler(int key,int event){
+    if(key == 1 && menu.isPlayingAnime() == false){
+        int select_index = menu.getCursor();
+        switch (select_index)
+        {
+        case 0:
+            printf("clicked timer\n");
+            anime_init(&a_menu_y,a_menu_y.val,-u8g2.getHeight(),500,easing_fun_OutQuad);
+            a_menu_y.finished_cb = anime_finised_cb;
+            switch_page_id = PAGE_ID_CLOCK;
+            a_menu_y.user_data = &switch_page_id;
+            anime_play(&a_menu_y);
+            break;
+        case 1:
+            printf("clicked toolbox\n");
+            anime_init(&a_menu_y,a_menu_y.val,-u8g2.getHeight(),500,easing_fun_OutQuad);
+            a_menu_y.finished_cb = anime_finised_cb;
+            switch_page_id = PAGE_ID_TOOLBOX;
+            a_menu_y.user_data = &switch_page_id;
+            anime_play(&a_menu_y);
+            break;
+        case 2:
+            printf("clicked settings\n");
+            anime_init(&a_menu_y,a_menu_y.val,-u8g2.getHeight(),500,easing_fun_OutQuad);
+            a_menu_y.finished_cb = anime_finised_cb;
+            switch_page_id = PAGE_ID_MENU;
+            a_menu_y.user_data = &switch_page_id;
+            anime_play(&a_menu_y);
+            break;
+        case 3:
+            printf("clicked about\n");
+            break;    
+        default:
+            break;
+        }
+    }
+
+    if(key == 2){
+        menu.scroll(-1);
+    }else if(key == 3){
+        menu.scroll(1);
+    }
 
 }
 

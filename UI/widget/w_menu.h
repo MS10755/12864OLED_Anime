@@ -13,19 +13,30 @@ typedef struct{
     const char * text;
 }icont_t;
 
-class w_menu : w_obj
+class w_menu : public w_obj
 {
 private:
     /* data */
     vector<icont_t> icon_list;
+    int cursor = 0;
+    int last_cursor;
+    anime_parms a_shiftOut_y;
+    anime_parms a_shiftIn_y;
+    anime_parms a_list_x;
+
+    bool need_set_anime = false;
 public:
     w_menu(/* args */);
     w_menu(int x, int y): w_obj(x,y){
     };
     void add_itme(icont_t icon);
     void draw() override;
+    bool isPlayingAnime() override;
+    void scroll(int dir);
+    void set_Anime();
+    int getCursor();
     ~w_menu(){
-        
+
     }
 };
 

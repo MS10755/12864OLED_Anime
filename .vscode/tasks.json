@@ -5,7 +5,7 @@
             "label": "Win32 编译",
             "command": "make",
             "args": [
-                "-j16"
+                "-j8"
             ],
             "options": {
                 "cwd": "${workspaceFolder}/Windows"

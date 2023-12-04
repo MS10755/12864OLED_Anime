@@ -67,6 +67,9 @@
         "vector": "cpp",
         "string": "cpp",
         "map": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "stdlib.h": "c",
+        "gui.h": "c",
+        "menu.h": "c"
     }
 }

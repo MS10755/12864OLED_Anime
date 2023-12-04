@@ -36,7 +36,7 @@ C_SOURCES += $(wildcard ../libraries/u8g2/csrc/*.c) \
 			HAL/HAL.c \
 			$(wildcard ../UI/anime/*.c) \
 			../UI/page_manager/page_manager.c \
-			$(wildcard ../UI/icons/*.c)
+			$(wildcard ../UI/icons/*.c) 
 			
 
 

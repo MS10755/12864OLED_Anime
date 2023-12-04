@@ -2,10 +2,12 @@
 #define __ANIME_H__
 #include <stdint.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 struct anime_parms;
 
 typedef void (*easing_fun_exec_t)(struct anime_parms* parms);
+typedef void (*anime_cb_t)(struct anime_parms * parms);
 enum {
 	ANIME_STATUS_INIT,
 	ANIME_STATUS_PLAYING,
@@ -20,6 +22,8 @@ typedef struct anime_parms{
 	int val_target;
 	uint16_t duration;
 	easing_fun_exec_t easing_fun;
+	anime_cb_t finished_cb;
+	void * user_data;
 }anime_parms_t;
 
 typedef struct anime_timeLine
@@ -41,6 +45,7 @@ void anime_cancel(anime_parms_t* parms, uint16_t duration);
 anime_timeLine_t *anime_timeLine_create(void);
 void anime_timeLine_del(anime_timeLine_t *timeLine);
 void anime_timeLine_add(anime_timeLine_t *timeLine, anime_parms_t *parms);
+bool anime_timeLine_process(anime_timeLine_t *timeLine);
 
 #ifdef __cplusplus
 }

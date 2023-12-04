@@ -18,6 +18,8 @@ using namespace std;
 #define W_LIST_MAX_CHAR 16
 #endif // !W_LIST_MAX_CHAR
 
+#define W_LIST_SHIFTOUT_NUM 8
+
 class w_list : w_obj
 {
 private:
@@ -26,6 +28,7 @@ private:
     anime_parms a_list_y;
     anime_parms a_cursor_y;
     anime_parms a_cursor_width;
+    anime_parms a_shiftOut[W_LIST_SHIFTOUT_NUM];
 
     int cursor = 0;
     int show_area_begin = 0;
@@ -43,9 +46,10 @@ public:
     void add_itme(string itme);
     void add_itme(vector<string> itmes);
     void draw() override;
+    bool isPlayingAnime() override;
     void scroll(int step);
     void setAnime();
-
+    void reset();
 };
 
 
