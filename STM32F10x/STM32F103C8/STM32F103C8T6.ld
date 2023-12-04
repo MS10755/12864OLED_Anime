@@ -2,8 +2,8 @@ ENTRY(Reset_Handler)
 
 MEMORY
 {
-RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 64K
-FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 512K
+RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 20K
+FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 64K
 }
 _estack = ORIGIN(RAM) + LENGTH(RAM);
 _Min_Heap_Size = 0x200;      /* required amount of heap  */

@@ -144,7 +144,7 @@ CPPFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # LDFLAGS
 #######################################
 # link script
-LDSCRIPT = STM32F103ZETx.ld
+LDSCRIPT = STM32F103C8T6.ld
 
 # libraries
 LIBS = -lc -lm -lnosys 
