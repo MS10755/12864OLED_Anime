@@ -86,7 +86,7 @@ MCU = -mcpu=cortex-m3 -mthumb
 
 FLAGS = -Wall -fdata-sections -ffunction-sections -fdiagnostics-color=always
 
-LD_SCRIPT = STM32F103C8Tx_FLASH.ld
+LD_SCRIPT = STM32F103C8T6.ld
 
 LIBS = -lc -lm -lnosys
 
@@ -105,12 +105,12 @@ OBJS += $(foreach OBJ,$(notdir $(CPP_SOURCES:%.cpp=%.o)), $(BUILD_DIR)/$(OBJ))
 
 $(BUILD_DIR)/%.o : %.c Makefile
 	@echo "gcc compile file:"$<
-	$(CC) -c $(MCU) $(DEFS) $(C_DEFS)  $(IINCLUDES) $(OPT) $(FLAGS) $(DPENS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst))   $< -o $@
+	@$(CC) -c $(MCU) $(DEFS) $(C_DEFS)  $(IINCLUDES) $(OPT) $(FLAGS) $(DPENS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst))   $< -o $@
 
 
 $(BUILD_DIR)/%.o : %.cpp Makefile
 	@echo "g++ compile file:"$<
-	$(CXX) -c $(MCU) $(DEFS) $(CPP_DEFS) $(IINCLUDES) $(OPT) $(FLAGS) $(DPENS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cpp=.lst))  $(IINCLUDES) $< -o $@
+	@$(CXX) -c $(MCU) $(DEFS) $(CPP_DEFS) $(IINCLUDES) $(OPT) $(FLAGS) $(DPENS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cpp=.lst))  $(IINCLUDES) $< -o $@
 
 
 $(BUILD_DIR)/$(TARGET).elf:  $(BUILD_DIR) $(OBJS) Makefile
