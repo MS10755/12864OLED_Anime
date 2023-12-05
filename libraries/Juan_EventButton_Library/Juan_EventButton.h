@@ -5,8 +5,8 @@
 #include "Arduino.h"
 #define BUTTON_GET_MS()		millis()
 #else
-#include "frame_stm32f10x.h"
-#define BUTTON_GET_MS()		millis()
+#include "main.h"      
+#define BUTTON_GET_MS()		HAL_GetTick()
 #endif
 
 #include <stdint.h>
@@ -60,6 +60,13 @@ Juan_EventButton_t * Juan_EventButtonCreate(
 			uint16_t longPressRepeatTime
 );
 
+void Juan_EventButtonInitStatic(
+			Juan_EventButton_t * btn,
+			uint8_t noPressStatus,
+			uint16_t doubleClickTime,
+			uint16_t longPressTime,
+			uint16_t longPressRepeatTime
+);
 
 void Juan_EventButtonDelete(Juan_EventButton_t * btn);
 void Juan_AddEventHandler(Juan_EventButton_t * btn,event_handler_t event_handler);

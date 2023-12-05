@@ -1424,7 +1424,7 @@ void st_Step(uint8_t player_pos, uint8_t is_auto_fire, uint8_t is_fire)
 
 static int open(){
 
-  u8g2.setFont(u8g2_font_6x10_tr);
+  u8g2.setFont(u8g2_font_6x10_tf);
   u8g2.setFontDirection(0);
   u8g2.setFontRefHeightAll();
   st_Setup(u8g2.getU8g2());

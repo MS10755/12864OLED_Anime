@@ -144,7 +144,7 @@ const char *convert_FPS(uint16_t fps) {
 void show_result(const char *s, uint16_t fps) {
   // assign default color value
   u8g2.setColorIndex(draw_color);
-  u8g2.setFont(u8g2_font_8x13B_tf);
+  u8g2.setFont(u8g2_font_6x10_tf);
   u8g2.clearBuffer();
   u8g2.drawStr(0,12, s);
   u8g2.drawStr(0,24, convert_FPS(fps));

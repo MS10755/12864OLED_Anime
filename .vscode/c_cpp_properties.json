@@ -27,7 +27,9 @@
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
-                "STM32F103xE"
+                "STM32F103xE",
+                "U8X8_USE_PINS",
+                "DUSE_HAL_DRIVER"
             ],
             "compilerPath": "D:/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc.exe",
             "cStandard": "c99",

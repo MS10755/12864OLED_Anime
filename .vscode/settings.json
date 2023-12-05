@@ -71,7 +71,9 @@
         "stdlib.h": "c",
         "gui.h": "c",
         "menu.h": "c",
-        "gpio.h": "c"
+        "gpio.h": "c",
+        "u8x8.h": "c",
+        "spi.h": "c"
     },
     "cortex-debug.variableUseNaturalFormat": false
 }

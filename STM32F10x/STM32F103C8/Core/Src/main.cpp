@@ -18,11 +18,16 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "spi.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include "U8g2lib.h"
+#include "page.h"
+#include "HAL.h"
+#include "Juan_EventButton.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,7 +48,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+page_manager_t page_manager;
+U8G2_UC1701_MINI12864_f_4W_HW_SPI_STM32 u8g2(U8G2_R0);
 
+Juan_EventButton_t key1;
+Juan_EventButton_t key2;
+Juan_EventButton_t key3;
+Juan_EventButton_t key4;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -54,6 +65,31 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+static int pressed_key = -1;
+void key_event_handler(void * btn,ButtonEvent_t event){
+  if(btn == &key1 && event == BUTTON_EVENT_PRESSED){
+    pressed_key = 1;
+  }else if(btn == &key2 && event == BUTTON_EVENT_PRESSED){
+    pressed_key = 2;
+  }else if(btn == &key3 && event == BUTTON_EVENT_PRESSED){
+    pressed_key = 3;
+  }else if(btn == &key4 && event == BUTTON_EVENT_PRESSED){
+    pressed_key = 4;
+  }
+}
+int get_key(){
+  int key;
+  Juan_EventMonitor(&key1,HAL_GPIO_ReadPin(KEY2_Port,KEY2_Pin));
+  Juan_EventMonitor(&key2,HAL_GPIO_ReadPin(KEY1_Port,KEY1_Pin));
+  Juan_EventMonitor(&key3,HAL_GPIO_ReadPin(KEY0_Port,KEY0_Pin));
+  Juan_EventMonitor(&key4,HAL_GPIO_ReadPin(KEY_WKUP_Port,KEY_WKUP_Pin));
+  if(pressed_key > 0){
+    key = pressed_key;
+    pressed_key = -1;
+    return key;
+  }
+    return -1;
+}
 
 /* USER CODE END 0 */
 
@@ -85,17 +121,42 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  setvbuf(stdout, NULL, _IONBF, 0);
+  u8g2.begin();
+
+  PAGE_INIT(PAGE_ID_MAIN);
+  PAGE_INIT(PAGE_ID_MENU);
+  PAGE_INIT(PAGE_ID_CLOCK);
+  PAGE_INIT(PAGE_ID_TOOLBOX);
+  PAGE_INIT(PAGE_ID_GAME);
+  page_switch(&page_manager,PAGE_ID_MAIN);
+
+  Juan_EventButtonInitStatic(&key1,1,500,3000,3000);
+  Juan_EventButtonInitStatic(&key2,1,500,3000,3000);
+  Juan_EventButtonInitStatic(&key3,1,500,3000,3000);
+  Juan_EventButtonInitStatic(&key4,0,500,3000,3000);
+  Juan_AddEventHandler(&key1,key_event_handler);
+  Juan_AddEventHandler(&key2,key_event_handler);
+  Juan_AddEventHandler(&key3,key_event_handler);
+  Juan_AddEventHandler(&key4,key_event_handler);
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    page_manager_loop(&page_manager);
+    int key = get_key();
+    if(key > 0 ){
+      page_key_event_send(&page_manager,key,0);
+    }
+    HAL_Delay(1);
   }
   /* USER CODE END 3 */
 }

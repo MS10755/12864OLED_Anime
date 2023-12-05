@@ -46,6 +46,23 @@ Juan_EventButton_t * Juan_EventButtonCreate(
 		btn->_timer_double_clicked_en = false;
 		return btn;
 }
+void Juan_EventButtonInitStatic(
+			Juan_EventButton_t * btn,
+			uint8_t noPressStatus,
+			uint16_t doubleClickTime,
+			uint16_t longPressTime,
+			uint16_t longPressRepeatTime
+){
+		if(btn==NULL) return;
+		btn->_noPressStatus = !!noPressStatus;
+		btn->_doubleClickTime = doubleClickTime;
+		btn->_longPressTime = longPressTime;
+		btn->_longPressRepeatTime = longPressRepeatTime;
+		btn->_event_handler = NULL;
+		btn->_lastStatus = btn->_noPressStatus;
+		btn->_timer_longPressed_en = false;
+		btn->_timer_double_clicked_en = false;
+}
 
 /**
   * @brief	:	delete an eventbutton

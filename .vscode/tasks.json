@@ -26,6 +26,19 @@
                 "showReuseMessage": false,
                 "clear": false
             }
+        },{
+            "type": "shell",
+            "label": "Win32 运行",
+            "command":"./Windows/build/Simulator.exe"
+        },
+        {
+            "type": "shell",
+            "label": "Win32 编译 & 下载",
+            "dependsOrder": "sequence",
+            "dependsOn":[
+                "Win32 编译",
+                "Win32 运行"
+            ]
         },
         {
             "type": "shell",
@@ -80,6 +93,15 @@
                 "showReuseMessage": false,
                 "clear": false
             }
+        },
+        {
+            "type": "shell",
+            "label": "STM32 编译 & 下载",
+            "dependsOrder": "sequence",
+            "dependsOn":[
+                "STM32 编译",
+                "STM32 下载"
+            ]
         }
     ],
     "version": "2.0.0"

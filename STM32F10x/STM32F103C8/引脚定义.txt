@@ -1,0 +1,5 @@
+程序按键编号	原理图位号		单片机IO	引脚按下IO电平
+	1				KEY2		 PE2			GND
+	2				KEY1		 PE3			GND
+	3				KEY0		 PE4			GND
+	4				WK_UP		 PA0			3.3V
