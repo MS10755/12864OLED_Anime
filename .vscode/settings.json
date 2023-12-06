@@ -75,5 +75,30 @@
         "u8x8.h": "c",
         "spi.h": "c"
     },
-    "cortex-debug.variableUseNaturalFormat": false
+    "cortex-debug.variableUseNaturalFormat": false,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/Core/Template":true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/Core_A":true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/DSP":true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/Lib":true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/NN":true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/RTOS*":true,
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/Core/Template":true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/Core_A":true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/DSP":true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/Lib":true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/NN":true,
+        "STM32F10x/STM32F103C8/Drivers/CMSIS/RTOS*":true,
+    }
 }
