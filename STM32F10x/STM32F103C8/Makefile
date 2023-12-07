@@ -118,6 +118,12 @@ $(BUILD_DIR)/$(TARGET).elf:  $(BUILD_DIR) $(OBJS) Makefile
 	@$(CXX) $(MCU) $(LD_FLAGS) -T$(LD_SCRIPT) $(LIBS)  $(OBJS) -o  $@
 	@$(SZ) -Ax $@
 	@$(SZ) -Bd $@
+	@echo "gen hex files"
+	@$(CP) -Oihex $@ $(@:%.elf=%.hex)
+	@echo "gen bin files"
+	@$(CP) -Obinary $@ $(@:%.elf=%.bin)
+	@echo "completed!"
+	
 
 $(BUILD_DIR):
 	@mkdir -p $@
@@ -128,5 +134,8 @@ clean:
 
 # print-VIRABLES, this is useful for debug. reference: https://www.cmcrossroads.com/article/printing-value-makefile-variable
 print-%  : ; @echo $* = $($*)
+
+
+.PHONY : clean
 
 sinclude $(wildcard $(BUILD_DIR)/*.d)
