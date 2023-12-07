@@ -8,6 +8,7 @@ BUILD_DIR = build
 
 OPTS = -O0 -g
 
+
 DEFINES = -DPLATFORM_WIN32
 
 # add headers files here
@@ -49,10 +50,22 @@ vpath %.c $(dir $(C_SOURCES))
 OBJS += $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 OBJS += $(addprefix $(BUILD_DIR)/,$(notdir $(CPP_SOURCES:.cpp=.o)))
 
+ifneq ($(shell gcc --version | findstr "i686" ),)
 
 LIBS = SDL2/lib/x86/SDL2main.lib SDL2/lib/x86/SDL2.lib 
+DLL_FILE = SDL2/lib/x86/SDL2.dll
 
-# LIBS = SDL2/lib/x86/SDL2.lib 
+else ifneq ($(shell gcc --version | findstr "x86_64" ),)
+
+LIBS = SDL2/lib/x64/SDL2main.lib SDL2/lib/x64/SDL2.lib 
+DLL_FILE = SDL2/lib/x64/SDL2.dll
+
+else
+	$(error "Unable to determine the current compiler version！")
+
+endif
+
+
 LD_FLAGS =
 
 C_CXX_FLAGS = -MMD -MP -MF"$(@:%.o=%.d)"
@@ -63,7 +76,7 @@ CXX_FLAGS = -std=c++17 $(C_CXX_FLAGS)
 
 $(BUILD_DIR)/$(TARGET): $(BUILD_DIR) $(OBJS) Makefile
 	$(CXX) $(LD_FLAGS) $(OBJS) $(LIBS) -o $@
-	-cp SDL2/lib/x86/SDL2.dll build/
+	-cp $(DLL_FILE) build/
 
 
 $(BUILD_DIR)/%.o : %.cpp Makefile
