@@ -61,7 +61,7 @@ C_FLAGS = -std=c99 $(C_CXX_FLAGS)
 
 CXX_FLAGS = -std=c++17 $(C_CXX_FLAGS)
 
-$(BUILD_DIR)/$(TARGET): $(OBJS) $(BUILD_DIR) Makefile
+$(BUILD_DIR)/$(TARGET): $(BUILD_DIR) $(OBJS) Makefile
 	$(CXX) $(LD_FLAGS) $(OBJS) $(LIBS) -o $@
 	-cp SDL2/lib/x86/SDL2.dll build/
 
